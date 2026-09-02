@@ -1,0 +1,22 @@
+services:
+  wattflow-web:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: wattflow-web
+    restart: unless-stopped
+    ports:
+      - "127.0.0.1:3001:3001"
+    environment:
+      PORT: 3001
+      BACKEND_URL: http://kong:8000
+      SWAGGER_INTERNAL_URL: http://central-swagger-ui:8080
+    env_file:
+      - .env
+    networks:
+      - energy-network
+
+networks:
+  energy-network:
+    external: true
+    name: wattflow-backend_energy-network
